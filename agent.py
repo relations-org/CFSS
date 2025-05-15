@@ -48,5 +48,5 @@ if __name__ == "__main__":
     print("Environment:", agent.environment)
 
 #keep window open if opening from windows explorer
-input("\nPress Enter to exit...")
+    input("\nPress Enter to exit...")
 
