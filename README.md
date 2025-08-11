@@ -69,17 +69,11 @@ Later possibility: Relax HTML restriction to allow richer visuals (SVG animation
 ## Short-Term Milestones
 
 - Base agent & parameters	1 hr	
-
 - Set up rules/feedback logic	2 hrs	
-
 - Simple data visualizer (matplotlib or pygame)	2–3 hrs	
-
 - Add nutrition module with placeholder logic	1 hr	
-
 - Build environment-body-mind boundary selector	1 hr
-
 - Add references & start MD doc	1 hr	
-
 - Lit search for key values (e.g., cortisol response curves, tryptophan→serotonin pathway)	2 hrs (ongoing)	
 
 ## References & Realism
