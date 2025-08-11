@@ -66,18 +66,26 @@ Intended First Version Completion: May 17
 
 Later possibility: Relax HTML restriction to allow richer visuals (SVG animations, etc.)
 
-Short-Term Milestones
-Task	Time Estimate	
-Base agent & parameters	1 hr	
-Set up rules/feedback logic	2 hrs	
-Simple data visualizer (matplotlib or pygame)	2–3 hrs	
-Add nutrition module with placeholder logic	1 hr	
-Build environment-body-mind boundary selector	1 hr
-Add references & start MD doc	1 hr	
-Lit search for key values (e.g., cortisol response curves, tryptophan→serotonin pathway)	2 hrs (ongoing)	
+## Short-Term Milestones
+
+- Base agent & parameters	1 hr	
+
+- Set up rules/feedback logic	2 hrs	
+
+- Simple data visualizer (matplotlib or pygame)	2–3 hrs	
+
+- Add nutrition module with placeholder logic	1 hr	
+
+- Build environment-body-mind boundary selector	1 hr
+
+- Add references & start MD doc	1 hr	
+
+- Lit search for key values (e.g., cortisol response curves, tryptophan→serotonin pathway)	2 hrs (ongoing)	
 
 ## References & Realism
+
 Add .md or .pdf with basic scientific citations:
+
 	- Neurotransmitter production from diet
 	- Stress hormone response dynamics
 	- Thermoregulation and cognitive clarity
@@ -85,9 +93,13 @@ Add .md or .pdf with basic scientific citations:
 	- Allow direct clicking from the UI to these references later via doc links or tooltips.
 
 ## Design Goals
+
 Aesthetic: Clean + slightly nostalgic
+
 	Grayscale/blue wireframe-style overlays
+
 	Subtle pixel fonts or button styles where fitting
+
 	Functionality before polish, but UI should be intuitive from the start
 
 Later polish: Add SVG or animated schematic (in JS or Python+tk/svg toolkit)
