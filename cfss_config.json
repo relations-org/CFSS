@@ -1,0 +1,84 @@
+{
+  "run": {
+    "steps": 300,
+    "agent_name": "Aries",
+    "data_dir": "data",
+    "log_csv": true
+  },
+  "internal_state": {
+    "pain": 0.75,
+    "instability": 0.35,
+    "need_for_control": 0.45,
+    "cognitive_load": 0.4,
+    "neurochem_balance": 0.6,
+    "fatigue": 0.3
+  },
+  "environment": {
+    "temperature": 23.0,
+    "confinement": 0.2,
+    "social_contact": 0.55,
+    "noise_level": 0.3,
+    "light_level": 0.5
+  },
+  "regulation": {
+    "breathing": 0.3,
+    "cognitive_override": 0.3,
+    "pharmacology": 0.0,
+    "meditation": 0.25,
+    "exercise": 0.1
+  },
+  "nutrition": {
+    "glucose_level": 0.7,
+    "tryptophan": 0.5,
+    "tyrosine": 0.5,
+    "hydration": 0.85,
+    "vitamin_b12": 0.7
+  },
+  "params": {
+    "noise_std": 0.01,
+    "weights": {
+      "cognitive_load": {
+        "env": 0.35,
+        "int": 0.3,
+        "reg": 0.3,
+        "nut": 0.2,
+        "decay": 0.0
+      },
+      "pain": {
+        "env": 0.25,
+        "int": 0.3,
+        "reg": 0.2,
+        "nut": 0.1,
+        "decay": 0.0
+      },
+      "fatigue": {
+        "env": 0.15,
+        "int": 0.25,
+        "reg": 0.15,
+        "nut": 0.25,
+        "decay": 0.0
+      },
+      "neurochem_balance": {
+        "env": 0.15,
+        "int": 0.2,
+        "reg": 0.2,
+        "nut": 0.4,
+        "decay": 0.0
+      },
+      "instability": {
+        "env": 0.2,
+        "int": 0.3,
+        "reg": 0.2,
+        "nut": 0.15,
+        "decay": 0.0
+      },
+      "need_for_control": {
+        "env": 0.2,
+        "int": 0.25,
+        "reg": 0.25,
+        "nut": 0.1,
+        "decay": 0.0
+      }
+    }
+  }
+}
