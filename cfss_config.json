@@ -36,48 +36,61 @@
   },
   "params": {
     "noise_std": 0.01,
+    "targets": {
+      "pain": 0.2,
+      "instability": 0.2,
+      "need_for_control": 0.35,
+      "cognitive_load": 0.25,
+      "neurochem_balance": 0.7,
+      "fatigue": 0.25
+    },
+    "env_update": {
+      "comfort_temperature": 22.0,
+      "env_step": 0.05,
+      "dispersion_noise": 0.02
+    },
     "weights": {
       "cognitive_load": {
         "env": 0.35,
         "int": 0.3,
         "reg": 0.3,
         "nut": 0.2,
-        "decay": 0.0
+        "decay": 0.1
       },
       "pain": {
         "env": 0.25,
         "int": 0.3,
         "reg": 0.2,
         "nut": 0.1,
-        "decay": 0.0
+        "decay": 0.3
       },
       "fatigue": {
         "env": 0.15,
         "int": 0.25,
         "reg": 0.15,
         "nut": 0.25,
-        "decay": 0.0
+        "decay": 0.3
       },
       "neurochem_balance": {
         "env": 0.15,
         "int": 0.2,
         "reg": 0.2,
         "nut": 0.4,
-        "decay": 0.0
+        "decay": 0.4
       },
       "instability": {
         "env": 0.2,
         "int": 0.3,
         "reg": 0.2,
         "nut": 0.15,
-        "decay": 0.0
+        "decay": 0.2
       },
       "need_for_control": {
         "env": 0.2,
         "int": 0.25,
         "reg": 0.25,
         "nut": 0.1,
-        "decay": 0.0
+        "decay": 0.2
       }
     }
   }
