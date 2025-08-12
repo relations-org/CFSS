@@ -1,5 +1,8 @@
 # agent.py
 import random
+import csv
+import os
+from datetime import datetime
 
 def clamp01(x):
     return 0.0 if x < 0.0 else 1.0 if x > 1.0 else x
@@ -44,7 +47,10 @@ class Agent:
             "hydration": 0.8,
             "vitamin_b12": 0.7,
         }
-        self.history = []
+
+        self.history = []   # list of dicts, one per step
+        self.step = 0       # <— add a step counter
+
         self.params = {
             "noise_std": 0.01,
             "weights": {
@@ -95,7 +101,7 @@ class Agent:
         return random.gauss(0.0, self.params["noise_std"])
 
     def simulate_step(self, dt=1.0):
-        """Advance the internal state by one time step."""
+        """Advance the internal state by one time step and log a snapshot."""
         w = self.params["weights"]
         s = self.internal_state
 
@@ -103,7 +109,7 @@ class Agent:
         reg = self._reg_relief()
         nut = self._nutrition_support()
 
-        # helpers now take k explicitly (no hidden w_key reference)
+        # helpers take k explicitly
         def pull(x, k, target=0.3):
             return homeostasis(x, target=target, k=k * dt)
 
@@ -159,27 +165,111 @@ class Agent:
                     w_key["nut"] * (0.3 * nut))
         s["need_for_control"] = clamp01(pull(s["need_for_control"], k=w_key["decay"]) + dt * nfc_push + self._add_noise())
 
+        # increment step and log a rich snapshot
+        self.step += 1
         self.history.append({
+            "step": self.step,
+            # internal state
             "pain": s["pain"],
             "instability": s["instability"],
             "need_for_control": s["need_for_control"],
             "cognitive_load": s["cognitive_load"],
             "neurochem_balance": s["neurochem_balance"],
             "fatigue": s["fatigue"],
+            # composites
             "env_stress": env,
             "reg_relief": reg,
             "nut_support": nut,
+            # (optional) raw environment/reg/nutrition at this step for traceability:
+            "temperature": self.environment["temperature"],
+            "confinement": self.environment["confinement"],
+            "social_contact": self.environment["social_contact"],
+            "noise_level": self.environment["noise_level"],
+            "light_level": self.environment["light_level"],
+            "breathing": self.regulation["breathing"],
+            "cognitive_override": self.regulation["cognitive_override"],
+            "pharmacology": self.regulation["pharmacology"],
+            "meditation": self.regulation["meditation"],
+            "exercise": self.regulation["exercise"],
+            "glucose_level": self.nutrition["glucose_level"],
+            "tryptophan": self.nutrition["tryptophan"],
+            "tyrosine": self.nutrition["tyrosine"],
+            "hydration": self.nutrition["hydration"],
+            "vitamin_b12": self.nutrition["vitamin_b12"],
         })
+
+    # NEW: save history to CSV
+    def save_history_csv(self, filepath):
+        if not self.history:
+            print("No history to save.")
+            return
+
+        # Ensure folder exists
+        folder = os.path.dirname(filepath)
+        if folder and not os.path.exists(folder):
+            os.makedirs(folder, exist_ok=True)
+
+        # Determine column order from first snapshot
+        fieldnames = list(self.history[0].keys())
+
+        with open(filepath, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(self.history)
+
+        print(f"Saved {len(self.history)} rows to {filepath}")
+
+import matplotlib.pyplot as plt
+
+def plot_history(agent, show_composites=False):
+    """Plot the simulation history for an agent."""
+    if not agent.history:
+        print("No history to plot.")
+        return
+
+    # Convert history to lists
+    steps = [row["step"] for row in agent.history]
+
+    # Internal states to plot
+    internal_vars = ["pain", "instability", "need_for_control",
+                     "cognitive_load", "neurochem_balance", "fatigue"]
+
+    plt.figure(figsize=(10, 6))
+    for var in internal_vars:
+        plt.plot(steps, [row[var] for row in agent.history], label=var)
+
+    if show_composites:
+        composites = ["env_stress", "reg_relief", "nut_support"]
+        for var in composites:
+            plt.plot(steps, [row[var] for row in agent.history],
+                     linestyle="--", label=var)
+
+    plt.ylim(0, 1)
+    plt.xlabel("Step")
+    plt.ylabel("Value (0–1)")
+    plt.title(f"Agent Simulation: {agent.name}")
+    plt.legend(loc="best", fontsize="small")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
 
 if __name__ == "__main__":
     agent = Agent(name="Athena")
     print(agent)
 
-    for _ in range(50):
+    for _ in range(200):
         agent.simulate_step(dt=1.0)
 
     print("Final Internal State:")
     for k, v in agent.internal_state.items():
         print(f"  {k:18s} {v:.3f}")
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    out_path = os.path.join("data", f"{agent.name.lower()}_run_{timestamp}.csv")
+    agent.save_history_csv(out_path)
+
+    # NEW: plot
+    plot_history(agent, show_composites=True)
 
     input("\nPress Enter to exit...")
